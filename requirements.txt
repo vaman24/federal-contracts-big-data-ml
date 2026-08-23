@@ -1,0 +1,7 @@
+google-cloud-storage
+jupyter
+matplotlib
+numpy
+pandas
+pyspark
+seaborn
