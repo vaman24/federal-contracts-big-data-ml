@@ -67,19 +67,50 @@ The regression workflow compares:
 - Random Forest Regressor
 - Gradient-Boosted Tree Regressor
 
-Models are evaluated with MAE, RMSE, and error analysis. Exact final metrics will be added only after the complete reproducible run is exported and verified.
+Models are evaluated with MAE, RMSE, R², log-RMSE, and error analysis.
+
+## Verified results
+
+### Number of offers - primary model
+
+The model was selected using 2023 validation data and evaluated once on 1,656,042 target-valid records from 2024.
+
+| Model | Test MAE | Test RMSE | Test R² | Log-RMSE |
+|---|---:|---:|---:|---:|
+| Decision Tree | **10.6024** | **62.1229** | **0.9338** | **0.5949** |
+| GBT | 15.0215 | 75.1334 | 0.9032 | 0.6087 |
+| Linear Regression | 58.1634 | 206.3918 | 0.2693 | 1.0281 |
+| Random Forest | 62.6744 | 231.6313 | 0.0796 | 1.0054 |
+
+The Decision Tree was selected from the 2023 validation results and remained the strongest model on the 2024 test set.
+
+### Award value - secondary experiment
+
+Linear Regression was selected using the 2023 validation set. On 4,420,560 target-valid 2024 records, it produced MAE 1,589,974.78, RMSE 140,701,943.22, R² 0.0016, and log-RMSE 1.9099. The very low R² is retained as an honest negative result: the selected features did not explain award-value variance well enough for a useful predictive model.
+
+Machine-readable tables are available in [`results/`](results/).
 
 ## Exploratory analysis
 
 The work includes contract volume and target availability by year, offer and award-value distributions, NAICS sectors, awarding agencies, competition and set-aside analysis, and log-transformed target relationships.
 
+## Published portfolio evidence
+
+The academic project execution is complete. The original work, including data auditing, cleaning, feature engineering, EDA, model training, and evaluation, was performed in cloud notebooks on GCP Dataproc.
+
+Five sanitized, executed notebook exports and verified result tables are published in this repository. Databricks/Spark-monitor progress payloads were removed because they add size without adding technical evidence; meaningful tables, charts, and model outputs were retained.
+
 ## Repository structure
 
 | Path | Purpose |
 |---|---|
-| `notebooks/` | Auditing, EDA, feature engineering, and modelling notebooks |
-| `src/` | Reusable PySpark pipeline modules |
-| `results/` | Exported metrics, tables, and figures |
+| `notebooks/01_data_cleaning_and_feature_engineering.ipynb` | Schema audit, cleaning, feature engineering, temporal splits, and vector preparation |
+| `notebooks/02_date_quality_validation.ipynb` | Date-range auditing and secondary validation |
+| `notebooks/03_exploratory_data_analysis.ipynb` | Distributed EDA and visual analysis |
+| `notebooks/04_offers_model_evaluation.ipynb` | 2024 test evaluation and feature-importance analysis for the offer models |
+| `notebooks/05_award_value_model_training_and_evaluation.ipynb` | Secondary award-value regression experiment |
+| `results/` | Verified, machine-readable model metrics |
+| `src/` | Planned reusable PySpark pipeline modules |
 | `requirements.txt` | Local analysis dependencies |
 
 ## Reproduction plan
@@ -100,7 +131,10 @@ PySpark, Spark SQL, Spark ML, GCP Dataproc, GCS, distributed processing, Parquet
 
 ## Status
 
-The original work was developed in cloud notebooks. This repository is being organized into reusable source modules and reproducible notebook stages. Final cleaned notebooks and exported metrics are the next additions.
+- **Academic project execution:** Completed
+- **Executed notebook evidence:** Published
+- **Verified result tables:** Published
+- **Future engineering enhancement:** Extract reusable pipeline modules and add automated validation
 
 ## Author
 

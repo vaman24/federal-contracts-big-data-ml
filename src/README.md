@@ -1,6 +1,6 @@
-# Source modules
+# Source-module publication checklist
 
-Reusable PySpark code should be extracted here from the cloud notebooks.
+Reusable PySpark code should be extracted here from the completed cloud notebooks. The modules have not yet been published in this repository.
 
 Planned modules:
 

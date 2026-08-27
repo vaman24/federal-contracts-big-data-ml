@@ -14,6 +14,7 @@ models/
 checkpoints/
 *.parquet
 *.csv
+!results/*.csv
 *.zip
 
 .idea/
