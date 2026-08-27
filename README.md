@@ -111,19 +111,34 @@ Five sanitized, executed notebook exports and verified result tables are publish
 | `notebooks/05_award_value_model_training_and_evaluation.ipynb` | Secondary award-value regression experiment |
 | `results/` | Verified, machine-readable model metrics |
 | `src/` | Planned reusable PySpark pipeline modules |
-| `requirements.txt` | Local analysis dependencies |
+| `scripts/validate_notebooks.py` | Dependency-free portfolio integrity check |
+| `docs/reproducibility.md` | Recorded environment, rerun prerequisites, and limitations |
+| `.github/workflows/notebook-quality.yml` | Automated notebook and metrics validation |
+| `requirements.txt` | Bounded local analysis dependencies |
+
+## Automated validation
+
+Run the repository integrity check without Spark or cloud credentials:
+
+```bash
+python scripts/validate_notebooks.py
+```
+
+The check validates notebook JSON and Python syntax, rejects committed error and Spark-monitor outputs, scans for common credential formats, and confirms the selected-model rows in both result tables. GitHub Actions runs the same command for pushes and pull requests.
 
 ## Reproduction plan
 
 1. Create a GCP project, GCS bucket, and Dataproc cluster.
 2. Place the source Parquet data in a raw/staging GCS prefix.
-3. Configure dataset and output paths outside source code.
+3. Copy `.env.example` to `.env`, configure your cloud paths, and adapt the exported notebooks' path cells.
 4. Run validation and cleaning before feature engineering.
 5. Materialize the time-based train, validation, and test vectors.
 6. Train the baseline and regression models.
 7. Export metrics and figures to `results/`.
 
 Cloud credentials, bucket data, trained Spark models, and multi-gigabyte artifacts must not be committed.
+
+See [`docs/reproducibility.md`](docs/reproducibility.md) for the recorded runtime, validation scope, full-rerun prerequisites, and explicit limitations.
 
 ## Skills demonstrated
 
@@ -134,7 +149,8 @@ PySpark, Spark SQL, Spark ML, GCP Dataproc, GCS, distributed processing, Parquet
 - **Academic project execution:** Completed
 - **Executed notebook evidence:** Published
 - **Verified result tables:** Published
-- **Future engineering enhancement:** Extract reusable pipeline modules and add automated validation
+- **Automated evidence validation:** Implemented with GitHub Actions
+- **Future engineering enhancement:** Extract reusable pipeline modules from the completed notebook workflow
 
 ## Author
 

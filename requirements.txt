@@ -1,7 +1,7 @@
-google-cloud-storage
-jupyter
-matplotlib
-numpy
-pandas
-pyspark
-seaborn
+google-cloud-storage>=2.16,<3
+jupyter>=1.0,<2
+matplotlib>=3.8,<4
+numpy>=1.26,<3
+pandas>=2.2,<3
+pyspark>=3.5,<4
+seaborn>=0.13,<0.14
